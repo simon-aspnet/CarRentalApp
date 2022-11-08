@@ -7,6 +7,7 @@ using System.Windows.Forms;
 namespace CarRentalApp
 {
     // Unnecessary change for github
+    // Another unnecessary change
     internal static class Program
     {
         /// <summary>
