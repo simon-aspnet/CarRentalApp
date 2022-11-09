@@ -22,42 +22,61 @@ namespace CarRentalApp
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            string name=txtCustomerName.Text;
-            string car=cbCar.Text;
-            string rentalDate=dtpRentalDate.Text;
-            string returnDate=dtpReturnDate.Text;
-
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(car))
+            try
             {
-                MessageBox.Show("Please fill in the form properly","Error");
-                return;
-            }
+                string name = txtCustomerName.Text;
+                string car = cbCar.Text;
+                string rentalDate = dtpRentalDate.Text;
+                string returnDate = dtpReturnDate.Text;
+                var isValid = true;
+                double cost = 0d;
 
-            if (dtpRentalDate.Value > dtpReturnDate.Value)
+                if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(car))
+                {
+                    MessageBox.Show("Please fill in the form properly", "Error");
+                    isValid = false;
+                }
+
+                if (dtpRentalDate.Value > dtpReturnDate.Value)
+                {
+                    MessageBox.Show("Return Date can't be before Rental Date", "Error");
+                    isValid = false;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtCost.Text) || IsNumeric(txtCost.Text) == false)
+                {
+                    MessageBox.Show("Enter a proper Cost", "Error");
+                    isValid = false;
+                }
+                else
+                {
+                    cost = Convert.ToDouble(txtCost.Text);
+
+                    if (cost < 0)
+                    {
+                        MessageBox.Show("No negative costs", "Error");
+                        isValid = false;
+                    }
+                }
+
+
+                if (isValid == true)
+                {
+                    MessageBox.Show($"Thank you for Renting a {car}{Environment.NewLine}" +
+                        $"from {rentalDate}{Environment.NewLine}" +
+                        $"to {returnDate}{Environment.NewLine}" +
+                        $"at a cost of {cost}"
+                        , $"{name}");
+                }
+
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show("Return Date can't be before Rental Date","Error");
-                return ;
+                // for any errors not caught above
+                MessageBox.Show(ex.Message);
+                // comment out throw to allow th program to continue running
+                //throw;
             }
-
-            if (string.IsNullOrWhiteSpace(txtCost.Text)||IsNumeric(txtCost.Text) == false)
-            {
-                MessageBox.Show("Enter a proper Cost","Error");
-                return;
-            }
-
-            double cost = Convert.ToDouble(txtCost.Text);
-
-            if (cost < 0)
-            {
-                MessageBox.Show("No negative costs","Error");
-                    return;
-            }
-
-            MessageBox.Show($"Thank you for Renting a {car}{Environment.NewLine}" +
-                $"from {rentalDate}{Environment.NewLine}" +
-                $"to {returnDate}{Environment.NewLine}" +
-                $"at a cost of {cost}"
-                ,$"{name}");
         }
 
         public bool IsNumeric(string value)
