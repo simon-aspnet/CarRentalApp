@@ -105,11 +105,6 @@ namespace CarRentalApp
             dtpRentalDate.Value = DateTime.Today;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-        }
     }
 
 
