@@ -11,13 +11,14 @@ using System.Windows.Forms;
 
 namespace CarRentalApp
 {
-    public partial class Form1 : Form
+    public partial class AddRentalRecord : Form
     {
-        public Form1()
+        private readonly CarRentalEntities _carRentalEntities;
+        public AddRentalRecord()
         {
             InitializeComponent();
-            dtpReturnDate.Value = DateTime.Today;
-            dtpRentalDate.Value = DateTime.Today;
+
+            _carRentalEntities = new CarRentalEntities();
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
@@ -62,6 +63,15 @@ namespace CarRentalApp
 
                 if (isValid == true)
                 {
+                    var rentalRecord = new CarRentalRecord();
+                    rentalRecord.CustomerName = name;
+                    rentalRecord.DateRented = dtpRentalDate.Value;
+                    rentalRecord.DateReturned = dtpReturnDate.Value;
+                    rentalRecord.Cost = (decimal)cost;
+                    rentalRecord.TypeOfCarId = (int)cbCar.SelectedValue;
+                    _carRentalEntities.CarRentalRecords.Add(rentalRecord);
+                    _carRentalEntities.SaveChanges();
+
                     MessageBox.Show($"Thank you for Renting a {car}{Environment.NewLine}" +
                         $"from {rentalDate}{Environment.NewLine}" +
                         $"to {returnDate}{Environment.NewLine}" +
@@ -82,6 +92,23 @@ namespace CarRentalApp
         public bool IsNumeric(string value)
         {
             return Regex.IsMatch(value, @"^[+-]?(\d*\.)?\d+$");
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            var cars=_carRentalEntities.TypesOfCars.ToList();
+            cbCar.DisplayMember = "Name";
+            cbCar.ValueMember = "Id";
+            cbCar.DataSource = cars;
+
+            dtpReturnDate.Value = DateTime.Today;
+            dtpRentalDate.Value = DateTime.Today;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
         }
     }
 

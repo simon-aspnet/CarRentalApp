@@ -1,6 +1,6 @@
 ﻿namespace CarRentalApp
 {
-    partial class Form1
+    partial class AddRentalRecord
     {
         /// <summary>
         /// Required designer variable.
@@ -40,6 +40,7 @@
             this.btnSubmit = new System.Windows.Forms.Button();
             this.txtCost = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -111,10 +112,6 @@
             this.cbCar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbCar.FormattingEnabled = true;
-            this.cbCar.Items.AddRange(new object[] {
-            "Ford Cortina",
-            "Jaguar e-type",
-            "Vauxhall Viva Rocks"});
             this.cbCar.Location = new System.Drawing.Point(17, 321);
             this.cbCar.Name = "cbCar";
             this.cbCar.Size = new System.Drawing.Size(278, 28);
@@ -159,11 +156,23 @@
             this.label6.TabIndex = 11;
             this.label6.Text = "Cost";
             // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Magneto", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(17, 379);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(278, 59);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "Launch Main Window";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txtCost);
             this.Controls.Add(this.btnSubmit);
@@ -178,6 +187,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -197,6 +207,7 @@
         private System.Windows.Forms.Button btnSubmit;
         private System.Windows.Forms.TextBox txtCost;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button1;
     }
 }
 
