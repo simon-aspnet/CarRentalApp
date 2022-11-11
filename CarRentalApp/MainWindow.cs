@@ -26,7 +26,9 @@ namespace CarRentalApp
 
         private void manageVehicleListingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            ManageVehicleListing manageVehicleListing = new ManageVehicleListing();
+            manageVehicleListing.MdiParent=this;
+            manageVehicleListing.Show();
         }
     }
 }

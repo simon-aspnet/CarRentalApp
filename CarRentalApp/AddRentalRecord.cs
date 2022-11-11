@@ -96,7 +96,12 @@ namespace CarRentalApp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            var cars=_carRentalEntities.TypesOfCars.ToList();
+            // same as SELECT * from TypesOfCars
+            //var cars=_carRentalEntities.TypesOfCars.ToList();
+            var cars = _carRentalEntities.TypesOfCars
+                .Select(d => new { Id = d.Id, Name = d.Make + " " + d.Model })
+                .ToList();
+
             cbCar.DisplayMember = "Name";
             cbCar.ValueMember = "Id";
             cbCar.DataSource = cars;
