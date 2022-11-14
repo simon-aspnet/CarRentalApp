@@ -15,19 +15,22 @@ namespace CarRentalApp
     {
         private readonly bool _isEditMode;
         private readonly CarRentalEntities _carRentalEntities;
+        private readonly ManageVehicleListing _manageVehicleListing;
 
-        public AddEditVehicle()
+        public AddEditVehicle(ManageVehicleListing manageVehicleListing = null)
         {
             InitializeComponent();
             _carRentalEntities = new CarRentalEntities();
+            _manageVehicleListing = manageVehicleListing;
             _isEditMode = false;
             lblCar.Text = "Add Car";
         }
 
-        public AddEditVehicle(TypesOfCar carToEdit)
+        public AddEditVehicle(TypesOfCar carToEdit, ManageVehicleListing manageVehicleListing = null)
         {
             InitializeComponent();
             _carRentalEntities = new CarRentalEntities();
+            _manageVehicleListing = manageVehicleListing;
             _isEditMode = true;
             lblCar.Text = "Edit Car";
             PopuateFields(carToEdit);
@@ -35,9 +38,9 @@ namespace CarRentalApp
 
         private void PopuateFields(TypesOfCar car)
         {
-            txtMake.Text= car.Make;
-            txtModel.Text=car.Model;
-            txtVIN.Text=car.VIN;
+            txtMake.Text = car.Make;
+            txtModel.Text = car.Model;
+            txtVIN.Text = car.VIN;
             txtYear.Text = car.Year.ToString();
             txtLicense.Text = car.LicensePlateNumber;
             lblId.Text = car.Id.ToString();
@@ -47,44 +50,37 @@ namespace CarRentalApp
         {
             try
             {
-                if (_isEditMode)
+                TypesOfCar car = new TypesOfCar();
+
+                if(_isEditMode)
                 {
                     int id = int.Parse(lblId.Text);
-                    var car = _carRentalEntities.TypesOfCars.FirstOrDefault(x => x.Id == id);
-                    car.Make = txtMake.Text;
-                    car.Model = txtModel.Text;
-                    car.VIN = txtVIN.Text;
-                    if (IsNumeric(txtYear.Text))
-                    {
-                        car.Year = int.Parse(txtYear.Text);
-                    }
-                    car.LicensePlateNumber = txtLicense.Text;
-
-                    _carRentalEntities.SaveChanges();
-
-                    MessageBox.Show("Car Modified.\n\rPlease Refresh Grid.");
+                    car = _carRentalEntities.TypesOfCars.FirstOrDefault(x => x.Id == id);
                 }
-                else
+
+                car.Make = txtMake.Text;
+                car.Model = txtModel.Text;
+                car.VIN = txtVIN.Text;
+                if (IsNumeric(txtYear.Text))
                 {
-                    TypesOfCar car = new TypesOfCar();
-                    car.Make = txtMake.Text;
-                    car.Model = txtModel.Text;
-                    car.VIN = txtVIN.Text;
-                    if (IsNumeric(txtYear.Text))
-                    {
-                        car.Year = int.Parse(txtYear.Text);
-                    }
-                    car.LicensePlateNumber = txtLicense.Text;
-
-                    _carRentalEntities.TypesOfCars.Add(car);
-                    _carRentalEntities.SaveChanges();
-
-                    MessageBox.Show("Car Added.\n\rPlease Refresh Grid.");
+                    car.Year = int.Parse(txtYear.Text);
                 }
+                car.LicensePlateNumber = txtLicense.Text;
+
+                if (!_isEditMode)
+                    _carRentalEntities.TypesOfCars.Add(car);
+
+                _carRentalEntities.SaveChanges();
+                _manageVehicleListing.PopulateGrid();
+
+                if (_isEditMode)
+                    MessageBox.Show("Car Modified.\n\rPlease Refresh Grid.");
+                else
+                    MessageBox.Show("Car Added.\n\rPlease Refresh Grid.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,"Error");
+                MessageBox.Show(ex.Message, "Error");
             }
 
             this.Close();

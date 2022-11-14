@@ -46,7 +46,7 @@ namespace CarRentalApp
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddEditVehicle addEditVehicle = new AddEditVehicle();
+            AddEditVehicle addEditVehicle = new AddEditVehicle(this);
             addEditVehicle.MdiParent = this.MdiParent;
             addEditVehicle.Show();
 
@@ -54,7 +54,7 @@ namespace CarRentalApp
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            if(dgvVehicleList.SelectedRows.Count > 0)
+            if (dgvVehicleList.SelectedRows.Count > 0)
             {
                 // get Id of selected row
                 int id = (int)dgvVehicleList.SelectedRows[0].Cells["Id"].Value;
@@ -63,7 +63,7 @@ namespace CarRentalApp
                 TypesOfCar car = _carRentalEntities.TypesOfCars.FirstOrDefault(q => q.Id == id);
 
                 // launch addEditVehicle with data
-                AddEditVehicle addEditVehicle = new AddEditVehicle(car);
+                AddEditVehicle addEditVehicle = new AddEditVehicle(car, this);
                 addEditVehicle.MdiParent = this.MdiParent;
                 addEditVehicle.Show();
 
@@ -77,7 +77,7 @@ namespace CarRentalApp
             // query database for record
             TypesOfCar car = _carRentalEntities.TypesOfCars.FirstOrDefault(q => q.Id == id);
 
-            if(car!=null)
+            if (car != null)
             {
                 // remove car
                 _carRentalEntities.TypesOfCars.Remove(car);
@@ -93,10 +93,18 @@ namespace CarRentalApp
             PopulateGrid();
         }
 
-        private void PopulateGrid()
+        public void PopulateGrid()
         {
             var cars = _carRentalEntities.TypesOfCars
-                .Select(d => new { Make = d.Make, Model = d.Model, VIN = d.VIN, Year = d.Year, LicensePlate = d.LicensePlateNumber, d.Id })
+                .Select(d => new
+                {
+                    Make = d.Make,
+                    Model = d.Model,
+                    VIN = d.VIN,
+                    Year = d.Year,
+                    LicensePlate = d.LicensePlateNumber,
+                    d.Id
+                })
                 .ToList();
 
             dgvVehicleList.DataSource = cars;

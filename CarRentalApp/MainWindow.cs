@@ -19,16 +19,40 @@ namespace CarRentalApp
 
         private void addRentalRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddRentalRecord  addRentalRecord = new AddRentalRecord();
+            AddEditRentalRecord addRentalRecord = new AddEditRentalRecord();
             addRentalRecord.MdiParent = this;
             addRentalRecord.Show();
         }
 
         private void manageVehicleListingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ManageVehicleListing manageVehicleListing = new ManageVehicleListing();
-            manageVehicleListing.MdiParent=this;
-            manageVehicleListing.Show();
+            // get a list of open forms as Form objects (of datatype Form) as they're inherited from Form
+            var openForms = Application.OpenForms.Cast<Form>();
+            // are any forms with the name "ManageVehicleListing" open
+            var isOpen = openForms.Any(q => q.Name == "ManageVehicleListing");
+
+            if (!isOpen)
+            {
+                ManageVehicleListing manageVehicleListing = new ManageVehicleListing();
+                manageVehicleListing.MdiParent = this;
+                manageVehicleListing.Show();
+            }
+        }
+
+        private void viewArchiveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // get a list of open forms as Form objects (of datatype Form) as they're inherited from Form
+            var openForms = Application.OpenForms.Cast<Form>();
+            // are any forms with the name "ManageVehicleListing" open
+            var isOpen = openForms.Any(q => q.Name == "ManageRentalRecords");
+
+            if (!isOpen)
+            {
+                ManageRentalRecords manageRentalRecords = new ManageRentalRecords();
+                manageRentalRecords.MdiParent = this;
+                manageRentalRecords.Show();
+
+            }
         }
     }
 }

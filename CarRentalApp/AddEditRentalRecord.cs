@@ -11,14 +11,45 @@ using System.Windows.Forms;
 
 namespace CarRentalApp
 {
-    public partial class AddRentalRecord : Form
+    public partial class AddEditRentalRecord : Form
     {
         private readonly CarRentalEntities _carRentalEntities;
-        public AddRentalRecord()
+        private readonly bool _isEditMode;
+        private readonly ManageRentalRecords _manageRentalRecords;
+
+        public AddEditRentalRecord(ManageRentalRecords manageRentalRecords = null)
         {
             InitializeComponent();
 
             _carRentalEntities = new CarRentalEntities();
+            InitializeValues();
+            _isEditMode = false;
+            lblTitle.Text = "Add New Rental Record";
+            this.Text = "Add New Rental Record";
+            _manageRentalRecords = manageRentalRecords;
+        }
+
+        public AddEditRentalRecord(CarRentalRecord carRental, ManageRentalRecords manageRentalRecords = null)
+        {
+            InitializeComponent();
+
+            _carRentalEntities = new CarRentalEntities();
+            InitializeValues();
+            _isEditMode = true;
+            lblTitle.Text = "Modify Rental Record";
+            this.Text = "Modify Rental Record";
+            _manageRentalRecords = manageRentalRecords;
+            PopulateFields(carRental);
+        }
+
+        private void PopulateFields(CarRentalRecord carRental)
+        {
+            txtCustomerName.Text = carRental.CustomerName;
+            dtpRentalDate.Value = carRental.DateRented.Value;
+            dtpReturnDate.Value = carRental.DateReturned.Value;
+            txtCost.Text = carRental.Cost.ToString();
+            lblId.Text = carRental.Id.ToString();
+
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
@@ -60,25 +91,37 @@ namespace CarRentalApp
                     }
                 }
 
-
                 if (isValid == true)
                 {
                     var rentalRecord = new CarRentalRecord();
+                    if (_isEditMode)
+                    {
+                        int id = int.Parse(lblId.Text);
+                        rentalRecord = _carRentalEntities.CarRentalRecords.FirstOrDefault(x => x.Id == id);
+                    }
+
                     rentalRecord.CustomerName = name;
                     rentalRecord.DateRented = dtpRentalDate.Value;
                     rentalRecord.DateReturned = dtpReturnDate.Value;
                     rentalRecord.Cost = (decimal)cost;
                     rentalRecord.TypeOfCarId = (int)cbCar.SelectedValue;
-                    _carRentalEntities.CarRentalRecords.Add(rentalRecord);
+
+                    if (!_isEditMode)
+                        _carRentalEntities.CarRentalRecords.Add(rentalRecord);
+
                     _carRentalEntities.SaveChanges();
+                    if (_manageRentalRecords != null)
+                        _manageRentalRecords.PopulateGrid();
 
-                    MessageBox.Show($"Thank you for Renting a {car}{Environment.NewLine}" +
-                        $"from {rentalDate}{Environment.NewLine}" +
-                        $"to {returnDate}{Environment.NewLine}" +
-                        $"at a cost of {cost}"
-                        , $"{name}");
+                    if (_isEditMode)
+                        MessageBox.Show("Rental Record Modified.\n\rPlease Refresh Grid.");
+                    else
+                        MessageBox.Show($"Thank you for Renting a {car}{Environment.NewLine}" +
+                            $"from {rentalDate}{Environment.NewLine}" +
+                            $"to {returnDate}{Environment.NewLine}" +
+                            $"at a cost of {cost}"
+                            , $"{name}");
                 }
-
             }
             catch (Exception ex)
             {
@@ -87,6 +130,8 @@ namespace CarRentalApp
                 // comment out throw to allow th program to continue running
                 //throw;
             }
+
+            Close();
         }
 
         public bool IsNumeric(string value)
@@ -96,8 +141,11 @@ namespace CarRentalApp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // same as SELECT * from TypesOfCars
-            //var cars=_carRentalEntities.TypesOfCars.ToList();
+
+        }
+
+        private void InitializeValues()
+        {
             var cars = _carRentalEntities.TypesOfCars
                 .Select(d => new { Id = d.Id, Name = d.Make + " " + d.Model })
                 .ToList();
@@ -109,7 +157,6 @@ namespace CarRentalApp
             dtpReturnDate.Value = DateTime.Today;
             dtpRentalDate.Value = DateTime.Today;
         }
-
     }
 
 
