@@ -74,9 +74,9 @@ namespace CarRentalApp
                 _manageVehicleListing.PopulateGrid();
 
                 if (_isEditMode)
-                    MessageBox.Show("Car Modified.\n\rPlease Refresh Grid.");
+                    MessageBox.Show("Car Modified.");
                 else
-                    MessageBox.Show("Car Added.\n\rPlease Refresh Grid.");
+                    MessageBox.Show("Car Added.");
             }
             catch (Exception ex)
             {

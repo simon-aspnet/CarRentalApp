@@ -44,27 +44,33 @@ namespace CarRentalApp
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddEditRentalRecord addRentalRecord = new AddEditRentalRecord(this)
+            if (!Utils.CheckFormOpen("AddEditRentalRecord"))
             {
-                MdiParent = this.MdiParent
-            };
-            addRentalRecord.Show();
+                AddEditRentalRecord addRentalRecord = new AddEditRentalRecord(this)
+                {
+                    MdiParent = this.MdiParent
+                };
+                addRentalRecord.Show(); 
+            }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
             if (dgvRentalRecords.SelectedRows.Count > 0)
             {
-                // get Id of selected row
-                int id = (int)dgvRentalRecords.SelectedRows[0].Cells["Id"].Value;
+                if (!Utils.CheckFormOpen("AddEditRentalRecord"))
+                {
+                    // get Id of selected row
+                    int id = (int)dgvRentalRecords.SelectedRows[0].Cells["Id"].Value;
 
-                // query database for record
-                CarRentalRecord rental = _carRentalEntities.CarRentalRecords.FirstOrDefault(q => q.Id == id);
+                    // query database for record
+                    CarRentalRecord rental = _carRentalEntities.CarRentalRecords.FirstOrDefault(q => q.Id == id);
 
-                // launch AddEditRentalRecord with data
-                AddEditRentalRecord addEditRentalRecord = new AddEditRentalRecord(rental,this);
-                addEditRentalRecord.MdiParent = this.MdiParent;
-                addEditRentalRecord.Show();
+                    // launch AddEditRentalRecord with data
+                    AddEditRentalRecord addEditRentalRecord = new AddEditRentalRecord(rental, this);
+                    addEditRentalRecord.MdiParent = this.MdiParent;
+                    addEditRentalRecord.Show(); 
+                }
             }
 
         }
@@ -109,5 +115,6 @@ namespace CarRentalApp
                 MessageBox.Show(ex.Message, "Error");
             }
         }
+
     }
 }

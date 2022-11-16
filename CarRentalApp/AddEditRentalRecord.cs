@@ -49,7 +49,7 @@ namespace CarRentalApp
             dtpReturnDate.Value = carRental.DateReturned.Value;
             txtCost.Text = carRental.Cost.ToString();
             lblId.Text = carRental.Id.ToString();
-
+            cbCar.SelectedValue=carRental.TypeOfCarId;
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
@@ -114,7 +114,7 @@ namespace CarRentalApp
                         _manageRentalRecords.PopulateGrid();
 
                     if (_isEditMode)
-                        MessageBox.Show("Rental Record Modified.\n\rPlease Refresh Grid.");
+                        _ = MessageBox.Show("Rental Record Modified.");
                     else
                         MessageBox.Show($"Thank you for Renting a {car}{Environment.NewLine}" +
                             $"from {rentalDate}{Environment.NewLine}" +
@@ -141,7 +141,6 @@ namespace CarRentalApp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
 
         private void InitializeValues()

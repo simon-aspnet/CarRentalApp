@@ -34,7 +34,12 @@
             this.addRentalRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editRentalRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tsiLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -43,10 +48,12 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.manageVehicleListingToolStripMenuItem,
-            this.manageRentalRecordsToolStripMenuItem});
+            this.manageRentalRecordsToolStripMenuItem,
+            this.manageUsersToolStripMenuItem,
+            this.changePasswordToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1200, 35);
+            this.menuStrip1.Size = new System.Drawing.Size(1200, 33);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -70,36 +77,72 @@
             // addRentalRecordToolStripMenuItem
             // 
             this.addRentalRecordToolStripMenuItem.Name = "addRentalRecordToolStripMenuItem";
-            this.addRentalRecordToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.addRentalRecordToolStripMenuItem.Size = new System.Drawing.Size(261, 34);
             this.addRentalRecordToolStripMenuItem.Text = "Add Rental Record";
             this.addRentalRecordToolStripMenuItem.Click += new System.EventHandler(this.addRentalRecordToolStripMenuItem_Click);
             // 
             // viewArchiveToolStripMenuItem
             // 
             this.viewArchiveToolStripMenuItem.Name = "viewArchiveToolStripMenuItem";
-            this.viewArchiveToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.viewArchiveToolStripMenuItem.Size = new System.Drawing.Size(261, 34);
             this.viewArchiveToolStripMenuItem.Text = "View Archive";
             this.viewArchiveToolStripMenuItem.Click += new System.EventHandler(this.viewArchiveToolStripMenuItem_Click);
             // 
             // editRentalRecordToolStripMenuItem
             // 
             this.editRentalRecordToolStripMenuItem.Name = "editRentalRecordToolStripMenuItem";
-            this.editRentalRecordToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.editRentalRecordToolStripMenuItem.Size = new System.Drawing.Size(261, 34);
             this.editRentalRecordToolStripMenuItem.Text = "Edit Rental Record";
+            // 
+            // manageUsersToolStripMenuItem
+            // 
+            this.manageUsersToolStripMenuItem.Name = "manageUsersToolStripMenuItem";
+            this.manageUsersToolStripMenuItem.Size = new System.Drawing.Size(140, 29);
+            this.manageUsersToolStripMenuItem.Text = "Manage Users";
+            this.manageUsersToolStripMenuItem.Click += new System.EventHandler(this.manageUsersToolStripMenuItem_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsiLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 660);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1200, 32);
+            this.statusStrip1.TabIndex = 4;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tsiLabel
+            // 
+            this.tsiLabel.Name = "tsiLabel";
+            this.tsiLabel.Size = new System.Drawing.Size(122, 25);
+            this.tsiLabel.Text = "Main Window";
+            // 
+            // changePasswordToolStripMenuItem
+            // 
+            this.changePasswordToolStripMenuItem.Name = "changePasswordToolStripMenuItem";
+            this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(168, 29);
+            this.changePasswordToolStripMenuItem.Text = "Change Password";
+            this.changePasswordToolStripMenuItem.Click += new System.EventHandler(this.changePasswordToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 692);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainWindow";
             this.Text = "Sasha\'s Motor Rentals";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -112,5 +155,9 @@
         private System.Windows.Forms.ToolStripMenuItem addRentalRecordToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewArchiveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editRentalRecordToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem manageUsersToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel tsiLabel;
+        private System.Windows.Forms.ToolStripMenuItem changePasswordToolStripMenuItem;
     }
 }

@@ -46,9 +46,12 @@ namespace CarRentalApp
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddEditVehicle addEditVehicle = new AddEditVehicle(this);
-            addEditVehicle.MdiParent = this.MdiParent;
-            addEditVehicle.Show();
+            if (!Utils.CheckFormOpen("AddEditVehicle"))
+            {
+                AddEditVehicle addEditVehicle = new AddEditVehicle(this);
+                addEditVehicle.MdiParent = this.MdiParent;
+                addEditVehicle.Show(); 
+            }
 
         }
 
@@ -56,17 +59,21 @@ namespace CarRentalApp
         {
             if (dgvVehicleList.SelectedRows.Count > 0)
             {
-                // get Id of selected row
-                int id = (int)dgvVehicleList.SelectedRows[0].Cells["Id"].Value;
+                if(!Utils.CheckFormOpen("AddEditVehicle"))
+                {
+                    // get Id of selected row
+                    int id = (int)dgvVehicleList.SelectedRows[0].Cells["Id"].Value;
 
-                // query database for record
-                TypesOfCar car = _carRentalEntities.TypesOfCars.FirstOrDefault(q => q.Id == id);
+                    // query database for record
+                    TypesOfCar car = _carRentalEntities.TypesOfCars.FirstOrDefault(q => q.Id == id);
 
-                // launch addEditVehicle with data
-                AddEditVehicle addEditVehicle = new AddEditVehicle(car, this);
-                addEditVehicle.MdiParent = this.MdiParent;
-                addEditVehicle.Show();
+                    // launch addEditVehicle with data
+                    AddEditVehicle addEditVehicle = new AddEditVehicle(car, this);
+                    addEditVehicle.MdiParent = this.MdiParent;
+                    addEditVehicle.Show();
 
+
+                }
             }
         }
 
@@ -79,11 +86,27 @@ namespace CarRentalApp
 
             if (car != null)
             {
-                // remove car
-                _carRentalEntities.TypesOfCars.Remove(car);
-                _carRentalEntities.SaveChanges();
+                DialogResult dr = MessageBox.Show("Are you sure you want to delete this record?",
+                    "Delete",
+                    MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Warning);
 
-                dgvVehicleList.Refresh();
+                if (dr == DialogResult.Yes)
+                {
+                    // remove car
+                    try
+                    {
+                        _carRentalEntities.TypesOfCars.Remove(car);
+                        _carRentalEntities.SaveChanges();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message,"Error");
+                    }
+                }
+
+                PopulateGrid();
             }
 
         }
@@ -112,5 +135,6 @@ namespace CarRentalApp
             dgvVehicleList.Columns[4].HeaderText = "License Plate";
             dgvVehicleList.Columns[5].Visible = false;
         }
+
     }
 }
